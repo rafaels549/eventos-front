@@ -1,7 +1,7 @@
 <template>
     
     <section class="bg-gray-50 dark:bg-gray-900">
-        <div v-if="message" class="bg-green-500 text-white text-center ">
+        <div v-if="message" class="bg-red-500 text-white text-center ">
 
                {{ message.message }}
         </div>
@@ -53,6 +53,7 @@ import router from '@/router';
 import api from '@/axiosInstance';
 import { sucessMessage } from '@/store/messagesStore';
 import { userStore } from '@/store/userStore';
+import { data } from 'autoprefixer';
 
 const message = sucessMessage();
 
@@ -80,12 +81,16 @@ const login = async () => {
     const response = await api.post('/login', formData.value);
 
     const user = await api.get('/api/user');
-       
     userStored.setUser(user.data.name, user.data.email,user.data.id);
      
      
     router.push("/home");
   } catch (error) {
+
+    message.setMessage(error.response.data.message)
+    setTimeout(() => {
+        message.clearMessage()
+    }, 3000);
     console.error('Erro ao fazer login:', error.response?.data || error.message);
   }
 };
