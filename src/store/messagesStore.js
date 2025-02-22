@@ -1,19 +1,21 @@
-
 import { defineStore } from 'pinia';
-export const  sucessMessage= defineStore('message', {
-    state: () => {
-     
-          message:""
-      
+
+export const sucessMessage = defineStore('message', {
+  state: () => ({
+    message: '',
+    isSuccess: false, 
+  }),
+  actions: {
+    
+    setMessage(newMessage, isSuccess) {
+      this.message = newMessage;
+      this.isSuccess = isSuccess; 
     },
-    // could also be defined as
-    // state: () => ({ count: 0 })
-    actions: {
-      setMessage(newMessage){
-          this.message = newMessage
-      },
-      clearMessage(){
-         this.message = ''
-      }
+
+    // Limpar a mensagem
+    clearMessage() {
+      this.message = '';
+      this.isSuccess = false; 
     },
-  })
+  },
+});
