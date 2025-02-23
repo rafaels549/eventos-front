@@ -84,7 +84,7 @@
                 <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Company</a>
               </div>
               <div class="py-6">
-                <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50" @click="logout">Logout</a>
+                <button class="-mx-3 block w-full rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50" @click="logout()">Logout</button>
               </div>
             </div>
           </div>
@@ -118,6 +118,7 @@
   } from '@heroicons/vue/24/outline'
   import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/vue/20/solid'
   const router = useRouter();
+  const { $userStore } = useNuxtApp()
   const products = [
     { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
     { name: 'Engagement', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
@@ -132,9 +133,14 @@
   
   const mobileMenuOpen = ref(false)
 
-    const logout = async () => {
-      await axiosInstance.get('/sanctum/csrf-cookie');
-       axiosInstance.post('/logout');
-       router.push('/');
-    }
+  const logout =  () => {
+   try {
+    
+   $userStore.logout()
+       router.push('/')
+      
+      } catch(error) {
+      console.log(error)
+   }
+}
   </script>
